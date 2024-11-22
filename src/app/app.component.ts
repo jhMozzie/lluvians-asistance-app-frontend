@@ -4,10 +4,8 @@ import { RouterOutlet } from '@angular/router';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  imports: [RouterOutlet], // Para renderizar rutas dinámicas
+  templateUrl: './app.component.html', // Apunta al archivo HTML externo
+  styleUrls: ['./app.component.scss'],
 })
-export class AppComponent {
-  title = 'lluvians-asistance-app-frontend';
-}
+export class AppComponent {}
