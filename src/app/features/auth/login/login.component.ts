@@ -1,17 +1,20 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common'; // Para usar *ngIf
+import { ReactiveFormsModule } from '@angular/forms'; // Para formGroup y formControl
 import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-login',
   standalone: true,
+  imports: [CommonModule, ReactiveFormsModule], // Agrega ReactiveFormsModule aquí
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
-  imports: [ReactiveFormsModule]
 })
 export class LoginComponent {
   loginForm: FormGroup;
+  errorMessage: string | null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -19,18 +22,27 @@ export class LoginComponent {
     private router: Router
   ) {
     this.loginForm = this.fb.group({
-      username: ['', Validators.required],
-      password: ['', [Validators.required, Validators.minLength(6)]],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(4)]],
     });
   }
 
   onSubmit(): void {
     if (this.loginForm.valid) {
-      const { username, password } = this.loginForm.value;
-      this.authService.login(username, password);
-      this.router.navigate(['/dashboard']);
+      const { email, password } = this.loginForm.value;
+      this.authService.login(email, password).subscribe({
+        next: (response) => {
+          console.log('Login successful:', response);
+          localStorage.setItem('token', response.token); // Guarda el token
+          this.router.navigate(['/dashboard']);
+        },
+        error: (err) => {
+          console.error('Login error:', err);
+          this.errorMessage = err.error?.error || 'Error al iniciar sesión';
+        },
+      });
     } else {
-      console.log('Formulario inválido');
+      this.errorMessage = 'Por favor, completa todos los campos correctamente.';
     }
   }
 }
