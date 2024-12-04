@@ -20,9 +20,7 @@
             "outputPath": "dist/lluvians-asistance-app-frontend",
             "index": "src/index.html",
             "browser": "src/main.ts",
-            "polyfills": [
-              "zone.js"
-            ],
+            "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
@@ -32,9 +30,13 @@
               }
             ],
             "styles": [
+              "node_modules/tailwindcss/tailwind.css",
+              "src/assets/css/tailwind/tailwind.min.css",
+              "src/assets/css/loopple/loopple.css",
+              "src/assets/css/theme.css",
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": ["src/assets/js/loopple/loopple.js"]
           },
           "configurations": {
             "production": {
@@ -78,10 +80,7 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing"
-            ],
+            "polyfills": ["zone.js", "zone.js/testing"],
             "tsConfig": "tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
             "assets": [
@@ -90,9 +89,7 @@
                 "input": "public"
               }
             ],
-            "styles": [
-              "src/styles.scss"
-            ],
+            "styles": ["src/styles.scss"],
             "scripts": []
           }
         }
